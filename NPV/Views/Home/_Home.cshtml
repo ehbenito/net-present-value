@@ -1,0 +1,101 @@
+﻿<!-- ko with: home -->
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">NPV Parameters</a></li>
+        <li><a data-toggle="tab" href="#npvResults">NPV Results</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>NPV Parameters</h3>
+            <div id="fieldContainer" class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Initial Value</label>
+                    <input id="initialValue" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter initial value" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Lower bound discount rate</label>
+                    <input id="lbDiscountRate" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter Lower bound discount rate" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Upper bound discount rate</label>
+                    <input id="ubDiscountRate" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter Upper bound discount rate" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Discount increment</label>
+                    <input id="discountRateIncrement" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter discount increment" />
+                </div>
+                <br />
+                <br />
+                <div class="form-group cash-flow">
+                    <label class="control-label">Cash Flow #1:</label>
+                    <input id="cashFlow1" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter cash flow #1" />
+                </div>
+                <div class="form-group cash-flow">
+                    <label class="control-label">Cash Flow #2:</label>
+                    <input id="cashFlow2" maxlength="100" type="number" required="required" class="form-control" placeholder="Enter cash flow #2" />
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+                <button id="btnAddCashFlow" data-bind="click: addCashFlow" class="btn btn-primary indent" type="button">+</button>
+                <button id="btnCalculate" data-bind="click: calculate" type="button" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#npvModal">Calculate</button>
+            </div>
+        </div>
+        <div id="npvResults" class="tab-pane fade">
+            <h3>NPV Results</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="npvModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Net Present Value</h4>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Initial Value</th>
+                                <th>Cash Flows</th>
+                                <th>Discount Rate</th>
+                                <th>Net Present Value</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: npvRecords">
+                            <tr>
+                                <td data-bind="text: initialValue"></td>
+                                <td data-bind="text: cashFlows"></td>
+                                <td data-bind="text: discountRate"></td>
+                                <td data-bind="text: netPresentValue"></td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- /ko -->
