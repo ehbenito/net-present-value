@@ -57,8 +57,8 @@ namespace NPV.Controllers
 
                 using(var dbContext = new NpvContext())
                 {
-                    //dbContext.NPVRecords.Add(new NPVRecord { CashFlows = cashFlows, DiscountRate = discountRate * 100, InitialValue = request.InitialValue, NetPresentValue = netPresentValue.Sum() });
-                    //dbContext.SaveChanges();
+                    dbContext.NPVRecords.Add(new NPVRecord { CashFlows = cashFlows, DiscountRate = discountRate * 100, InitialValue = request.InitialValue, NetPresentValue = netPresentValue.Sum() });
+                    dbContext.SaveChanges();
                 }
             }
 
@@ -111,7 +111,7 @@ namespace NPV.Controllers
 
             using(var dbContext = new NpvContext())
             {
-                npvRecords = dbContext.NPVRecords.ToList();
+                npvRecords = dbContext.NPVRecords.OrderByDescending(x=>x.Id).Take(100).ToList();
             }
 
             response.NPVs = npvRecords;

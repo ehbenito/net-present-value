@@ -3,6 +3,8 @@
 
     self.npvRecords = ko.observableArray();
 
+    self.allNpvRecords = ko.observableArray();
+
     Sammy(function () {
         this.get('#home', function () {
             // Make a call to the protected Web API by passing in a Bearer Authorization Header
@@ -51,6 +53,8 @@
             'CashFlows': cashFlows
         };
 
+        self.npvRecords.removeAll();
+
         $.ajax({
             method: 'post',
             data: JSON.stringify(request),
@@ -58,6 +62,23 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 self.npvRecords(data.npVs);
+            },
+            error: function () {
+
+            }
+        });
+    };
+
+    self.getAllResults = function () {
+
+        self.allNpvRecords.removeAll();
+
+        $.ajax({
+            method: 'get',
+            url: '/api/Npv/',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                self.allNpvRecords(data.npVs);
             },
             error: function () {
 

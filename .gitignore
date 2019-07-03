@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/packages
+/NPV.Tests/obj/Debug
+/NPV.Tests/bin/Debug
+/NPV.Model/obj/Debug
+/NPV.Model/bin/Debug
+/NPV.Db/obj/Debug
+/NPV.Db/bin/Debug
+/NPV/obj/Debug
+/NPV/bin

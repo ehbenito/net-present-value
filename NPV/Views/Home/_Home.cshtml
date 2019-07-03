@@ -2,7 +2,7 @@
 <div class="container">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">NPV Parameters</a></li>
-        <li><a data-toggle="tab" href="#npvResults">NPV Results</a></li>
+        <li><a data-bind="click: getAllResults" data-toggle="tab" href="#npvResults">NPV Results</a></li>
     </ul>
 
     <div class="tab-content">
@@ -46,7 +46,28 @@
         </div>
         <div id="npvResults" class="tab-pane fade">
             <h3>NPV Results</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <br />
+            <h4>Last 100 Results</h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Initial Value</th>
+                        <th>Cash Flows</th>
+                        <th>Discount Rate</th>
+                        <th>Net Present Value</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: allNpvRecords">
+                    <tr>
+                        <td data-bind="text: initialValue"></td>
+                        <td data-bind="text: cashFlows"></td>
+                        <td data-bind="text: discountRate"></td>
+                        <td data-bind="text: netPresentValue"></td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
     </div>
 
