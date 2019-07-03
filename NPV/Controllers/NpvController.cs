@@ -22,7 +22,18 @@ namespace NPV.Controllers
 
             List<NPVRecord> npvRecords = new List<NPVRecord>();
 
-            List<decimal> discountRates = this.GetDiscountRate(request.LowerBoundDiscountRate, request.UpperBoundDiscountRate, request.DiscountRateIncrement);
+            npvRecords = CalculatePV(request.LowerBoundDiscountRate, request.UpperBoundDiscountRate, request.DiscountRateIncrement, request.InitialValue, request.CashFlows);
+
+            response.NPVs = npvRecords;
+
+            return Ok(response);
+        }
+
+        public List<NPVRecord> CalculatePV(decimal lbDiscountRate, decimal ubDiscountRate, decimal discountRateIncrement, decimal initialValue, List<Decimal> cashFlows)
+        {
+            List<NPVRecord> npvRecords = new List<NPVRecord>();
+
+            List<decimal> discountRates = this.GetDiscountRate(lbDiscountRate, ubDiscountRate, discountRateIncrement);
 
             foreach (var discountRatePercentage in discountRates)
             {
@@ -33,10 +44,10 @@ namespace NPV.Controllers
                 //decimal discountRate = discountRatePercentage;
 
                 List<decimal> netPresentValue = new List<decimal>();
-                netPresentValue.Add(-request.InitialValue);
-                string cashFlows = string.Empty;
+                netPresentValue.Add(-initialValue);
+                string cashFlowsTxt = string.Empty;
 
-                foreach (var cashFlow in request.CashFlows)
+                foreach (var cashFlow in cashFlows)
                 {
                     timePeriods++;
                     decimal presentValue = cashFlow / (Convert.ToDecimal(Math.Pow(Convert.ToDouble(1 + discountRate), timePeriods)));
@@ -45,29 +56,27 @@ namespace NPV.Controllers
 
                     if (timePeriods == 1)
                     {
-                        cashFlows = cashFlow.ToString();
+                        cashFlowsTxt = cashFlow.ToString();
                     }
                     else
                     {
-                        cashFlows = cashFlows + "," + cashFlow.ToString();
+                        cashFlowsTxt = cashFlowsTxt + "," + cashFlow.ToString();
                     }
                 }
 
-                npvRecords.Add(new NPVRecord { CashFlows = cashFlows, DiscountRate = discountRate * 100, InitialValue = request.InitialValue, NetPresentValue = netPresentValue.Sum() });
+                npvRecords.Add(new NPVRecord { CashFlows = cashFlowsTxt, DiscountRate = discountRate * 100, InitialValue = initialValue, NetPresentValue = netPresentValue.Sum() });
 
-                using(var dbContext = new NpvContext())
+                using (var dbContext = new NpvContext())
                 {
-                    dbContext.NPVRecords.Add(new NPVRecord { CashFlows = cashFlows, DiscountRate = discountRate * 100, InitialValue = request.InitialValue, NetPresentValue = netPresentValue.Sum() });
-                    dbContext.SaveChanges();
+                    //dbContext.NPVRecords.Add(new NPVRecord { CashFlows = cashFlowsTxt, DiscountRate = discountRate * 100, InitialValue = initialValue, NetPresentValue = netPresentValue.Sum() });
+                    //dbContext.SaveChanges();
                 }
             }
 
-            response.NPVs = npvRecords;
-
-            return Ok(response);
+            return npvRecords;
         }
 
-        private List<decimal> GetDiscountRate(decimal lowerBoundDiscountRate, decimal upperBoundDiscountRate, decimal discountIncrement)
+        public List<decimal> GetDiscountRate(decimal lowerBoundDiscountRate, decimal upperBoundDiscountRate, decimal discountIncrement)
         {
             List<decimal> discountRates = new List<decimal>();
 

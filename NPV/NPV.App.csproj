@@ -240,9 +240,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-NPV-20190701124615.mdf" />
+    <Content Include="App_Data\aspnet-NPV-20190701124615.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\aspnet-NPV-20190701124615_log.ldf">
       <DependentUpon>aspnet-NPV-20190701124615.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
